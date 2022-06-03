@@ -9,7 +9,7 @@ pipeline {
         }
         stage('2 estagio'){
             steps{
-                input 'ok'
+               echo 'teste'
             }
         }
     }
