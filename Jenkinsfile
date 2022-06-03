@@ -4,12 +4,13 @@ pipeline {
     stages {
         stage('1 estagio'){
             steps{
-                git 'https://github.com/yrmenezes/aula4.git'
+                echo "Execucao 1"
             }
         }
         stage('2 estagio'){
             steps{
-               echo 'teste'
+                echo "Execucao 2"
+		    sleep 200
             }
         }
     }
