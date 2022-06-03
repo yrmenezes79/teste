@@ -2,15 +2,19 @@ pipeline {
     agent any
 
     stages {
-        stage('1 estagio'){
-            steps{
-                echo "Execucao 1"
+        stage('Build') {
+            steps {
+                echo 'Building..'
             }
         }
-        stage('2 estagio'){
-            steps{
-                echo "Execucao 2"
-		    sleep 200
+        stage('Test') {
+            steps {
+                echo 'Testing..'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                echo 'Deploying....'
             }
         }
     }
