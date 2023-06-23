@@ -1,4 +1,4 @@
-name: Pipeline de Compilação e Testes
+name: Pipeline com Aprovação Manual
 
 on:
   push:
@@ -6,17 +6,29 @@ on:
       - main
 
 jobs:
-  build:
+  build_and_deploy:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout do código
-      uses: actions/checkout@v2
+      - name: Checkout do código
+        uses: actions/checkout@v2
 
-    - name: Compilação
-      run: |
-        # Comandos de compilação aqui
+      - name: Compilação e Testes
+        run: |
+          # Comandos de compilação e testes aqui
 
-    - name: Testes
-      run: |
-        # Comandos de execução de testes aqui
+      - name: Aprovação Manual
+        if: github.event_name == 'push'
+        uses: "actions/github-script@v4"
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const response = await github.pulls.createReview({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.payload.pull_request.number,
+              event: 'APPROVE'
+            });
+
+      - name: Implantação
+        if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull
